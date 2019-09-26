@@ -67,7 +67,7 @@ class CustomForm extends ModelBase implements Interfaces\TemplateImporterInterfa
      * @param boolean $getSettingValue if true, getting from UserSetting table
      * @return void
      */
-    public static function getDefault($tableObj, $getSettingValue = true)
+    public static function getDefault($tableObj, $getSettingValue = false)
     {
         $user = Admin::user();
         $tableObj = CustomTable::getEloquent($tableObj);
@@ -175,6 +175,9 @@ class CustomForm extends ModelBase implements Interfaces\TemplateImporterInterfa
             $model->setDefaultFlgInTable();
         });
         static::updating(function ($model) {
+            $model->setDefaultFlgInTable();
+        });
+        static::saving(function ($model) {
             $model->setDefaultFlgInTable();
         });
         

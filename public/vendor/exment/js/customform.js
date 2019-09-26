@@ -12,6 +12,7 @@ var Exment;
             CustomFromEvent.addDragEvent();
             CustomFromEvent.addCollapseEvent();
             CustomFromEvent.appendIcheckEvent($('.icheck:visible,.icheck.icheck_hasmany_type'));
+            CustomFromEvent.appendSwitchEvent($('.la_checkbox:visible'));
             $('form').on('submit', CustomFromEvent.ignoreSuggests);
         }
         static AddEventOnce() {
@@ -165,6 +166,21 @@ var Exment;
                     $e.iCheck({ checkboxClass: 'icheckbox_minimal-blue' });
                     $e.data('ichecked', true);
                 }
+            });
+        }
+        static appendSwitchEvent($elem) {
+            $elem.each(function (index, elem) {
+                var $e = $(elem);
+                $e.bootstrapSwitch({
+                    size:'small',
+                    onText: 'YES',
+                    offText: 'NO',
+                    onColor: 'primary',
+                    offColor: 'default',
+                    onSwitchChange: function(event, state) {
+                        $(event.target).closest('.bootstrap-switch').next().val(state ? '1' : '0').change();
+                    }
+                });
             });
         }
         static getModalTargetLi() {

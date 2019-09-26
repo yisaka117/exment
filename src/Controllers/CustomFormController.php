@@ -119,7 +119,7 @@ class CustomFormController extends AdminControllerTableBase
      */
     public function store(Request $request)
     {
-        if (!$this->saveformValidate($request, $id)) {
+        if (!$this->saveformValidate($request)) {
             admin_toastr(exmtrans('custom_form.message.no_exists_column'), 'error');
             return back()->withInput();
         }
@@ -156,10 +156,11 @@ class CustomFormController extends AdminControllerTableBase
         });
         
         $grid->disableExport();
-        $grid->disableCreateButton();
+        $grid->disableRowSelector();
+        // $grid->disableCreateButton();
         $grid->actions(function ($actions) {
             $actions->disableView();
-            $actions->disableDelete();
+            // $actions->disableDelete();
         });
         return $grid;
     }
@@ -205,6 +206,7 @@ class CustomFormController extends AdminControllerTableBase
             'js' => asset('/vendor/exment/js/customform.js?ver='.$ver),
             'editmode' => isset($id),
             'form_view_name' => $form->form_view_name,
+            'default_flg' => $form->default_flg?? '0',
             'change_page_menu' => (new Tools\GridChangePageMenu('form', $this->custom_table, false))->render()
         ]));
     }
@@ -518,7 +520,7 @@ class CustomFormController extends AdminControllerTableBase
     /**
      * validate before update or store
      */
-    protected function saveformValidate($request, $id)
+    protected function saveformValidate($request, $id = null)
     {
         $inputs = $request->input('custom_form_blocks');
         foreach ($inputs as $key => $value) {
@@ -570,6 +572,7 @@ class CustomFormController extends AdminControllerTableBase
                 $form = CustomForm::getEloquent($id);
             }
             $form->form_view_name = $request->input('form_view_name');
+            $form->default_flg = $request->input('default_flg');
             $form->saveOrFail();
             $id = $form->id;
 

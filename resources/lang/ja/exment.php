@@ -776,6 +776,7 @@ return [
         'changedata_target_column_when' => 'の項目を選択したとき',
         'changedata_column' => 'リンク列を選択',
         'changedata_column_then' => 'の値をコピーする',
+        'default_flg' => '既定のフォーム',
 
         'form_column_type_other_options' => [
             'header' => '見出し',
